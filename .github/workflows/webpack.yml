@@ -2,16 +2,17 @@ name: NodeJS with Webpack
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [22.x, 24.x]
+        node-version: ["22.x", "24.x"]
 
     steps:
       - uses: actions/checkout@v4
@@ -23,10 +24,10 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci --no-audit --no-fund
+        run: npm install --no-audit --no-fund
 
-      - name: Ensure webpack-cli is installed (prevents interactive prompt)
-        run: npm install -D webpack-cli --no-audit --no-fund
+      - name: Ensure webpack + webpack-cli exist
+        run: npm install -D webpack webpack-cli --no-audit --no-fund
 
       - name: Build
         run: npx webpack
