@@ -28,15 +28,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
-      - name: Install dependencies (use npm ci only if lockfile exists)
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci --no-audit --no-fund
-          else
-            npm install --no-audit --no-fund --legacy-peer-deps
-          fi
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund --legacy-peer-deps
 
-      - name: Ensure webpack + webpack-cli are installed (avoid interactive prompt)
+      - name: Ensure webpack + webpack-cli are installed (no interactive prompts)
         run: npm install -D webpack webpack-cli --no-audit --no-fund
 
       - name: Build
